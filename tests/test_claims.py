@@ -74,7 +74,7 @@ def test_claim_gap_between_assignment_and_tour(kind, expected):
 
 
 def test_claim_euclid_gap_grows_and_random_gap_stays_small():
-    """README: auf Karten wächst der Median der Lücke von n = 4 bis n = 12 von rund 12 % auf rund 25 %, auf Zufallsmatrizen bleibt er unter 8 %; kein einziges Kartenbeispiel von 100 ist schon eine Rundreise."""
+    """README: bei den 20 festen Karten je Größe steigen die Mediane der Lücke von n = 4 bis n = 12 von rund 12 % auf rund 25 % (mit anderen Karten flacht der Anstieg ab n = 8 ab), auf Zufallsmatrizen bleibt er unter 8 %; kein einziges Kartenbeispiel von 100 ist schon eine Rundreise."""
     euclid = ev.sweep_gap("euclid")
     random = ev.sweep_gap("random")
     medians = [r["gap_median"] for r in euclid]

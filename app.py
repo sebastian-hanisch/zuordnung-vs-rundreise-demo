@@ -96,7 +96,7 @@ with st.expander("So lesen wir „Klasse“", expanded=True):
         """
 1. **Entscheidungsfrage.** Klassen werden an Ja/Nein-Fragen definiert: „Gibt es eine Zuordnung mit Kosten höchstens K?“ bzw. „Gibt es eine Rundreise mit Kosten höchstens K?“. Die Optimierung ist die Suche nach dem kleinsten K.
 2. **Aufwand als Funktion der Größe.** Wie viele Schritte braucht das beste bekannte Verfahren bei n Orten? Hier ein Schritt = ein Lesezugriff auf die Kostenmatrix. **Polynomial** heißt: wie n², n³ (Klasse P). **Exponentiell** heißt: wie 2ⁿ oder n!.
-3. **Das Verfahren ist nicht das Problem.** Alle Zuordnungen aufzuzählen kostet n · n! Zugriffe, genauso wie alle Rundreisen aufzuzählen (n · (n−1)!). Die Ungarische Methode umgeht den Baum und kommt für die Zuordnung mit höchstens n³ aus. Für die Rundreise ist kein solches Verfahren bekannt; das beste exakte (Held–Karp) braucht rund 2ⁿ · n² und bleibt exponentiell.
+3. **Das Verfahren ist nicht das Problem.** Alle Zuordnungen aufzuzählen kostet n · n! Zugriffe, alle Rundreisen n · (n−1)!: beide wachsen faktoriell. Die Ungarische Methode umgeht den Baum und kommt für die Zuordnung mit höchstens n³ aus. Für die Rundreise ist kein solches Verfahren bekannt; das bekannte exakte Verfahren Held–Karp braucht Ordnung 2ⁿ · n² und bleibt exponentiell.
 4. **Vorsicht.** „NP-schwer“ ist eine Aussage unter der Annahme P ≠ NP, die bis heute unbewiesen ist. „Kein polynomiales Verfahren bekannt“ ist keine Aussage, dass es unmöglich ist.
         """
     )
@@ -110,7 +110,7 @@ with st.sidebar:
     sidebar_presets()  # Schnellstart oben, das aktive Preset ist hervorgehoben
     st.header("⚙️ Einstellungen")
     st.markdown("**Matrix**")
-    n = st.slider("Zahl der Orte n", *bounds("n_slider"), key="n_slider", help="Orte bzw. Fahrzeuge und Aufträge. Bei Aufzählen reicht das Budget schon ab n = 9 bis 11 nicht mehr.")
+    n = st.slider("Zahl der Orte n", *bounds("n_slider"), key="n_slider", help="Orte bzw. Fahrzeuge und Aufträge. Bei Aufzählen reicht das Budget je nach Einstellung schon ab n = 7 bis 10 nicht mehr (bei 10⁶: Zuordnung ab 9, Rundreise ab 10).")
     kind = st.radio("Art der Kosten", list(C.KINDS), format_func=C.KINDS.get, key="kind_radio",
                     help="Karte: Entfernungen zwischen zufälligen Orten (symmetrisch). Zufallsmatrix: ganze Zahlen von 1 bis 100, in jede Richtung anders.")
     seed = st.number_input("Zufalls-Seed der Matrix", *bounds("seed_input"), key="seed_input", step=1)
@@ -250,7 +250,7 @@ st.markdown(
 | **Zugriffe auf die Matrix sind der Aufwand** | Zugriffe sind keine Laufzeit: Speicher, Python-Overhead und Cache-Verhalten fehlen. Die Zählung vergleicht Verfahren, nicht Rechner. | – |
 | **n! und 2ⁿ sind Eigenschaften der Verfahren** | Dass die Rundreise „n! oder 2ⁿ“ braucht, sagt die Demo nur über Aufzählen und Held–Karp. Dass **kein** schnelleres Verfahren existiert, ist unbewiesen. | Stück 3 (Reduktionen) ordnet die Rundreise über NP-Vollständigkeit ein |
 | **NP-schwer heißt: unter P ≠ NP nicht polynomial lösbar** | Die Aussage hängt an einer unbewiesenen Annahme und gilt für den schlimmsten Fall, nicht für jede Instanz. | Stück 4 (SAT-Phasenübergang) und die Härte-und-Struktur-Reihe |
-| **In P heißt schnell** | Polynomial ist nicht gleich praktisch schnell: die Schranke n³ der Ungarischen Methode ist ein schlimmster Fall, gemessen wächst sie hier deutlich langsamer, und andere polynomiale Verfahren (Ellipsoid-Methode) sind in der Praxis langsam. | `ellipsoid-demo`, `klee-minty-demo` (Lineare-Programmierung-Reihe) |
+| **In P heißt schnell** | Polynomial ist nicht gleich praktisch schnell: die Schranke n³ der Ungarischen Methode ist ein schlimmster Fall, gemessen wächst sie hier deutlich langsamer, und andere polynomiale Verfahren (Ellipsoid-Methode) sind in der Praxis langsam. Die Umkehrung zeigt `klee-minty-demo`: schlimmster Fall exponentiell, Praxis schnell. | `ellipsoid-demo`, `klee-minty-demo` (Lineare-Programmierung-Reihe) |
 | **Zwei Matrixarten stehen für „typisch“** | Karte und Zufallsmatrix sind Instanzfamilien. Die Lücke zwischen Zuordnung und Rundreise ist eine Aussage über diese Familien, kein Naturgesetz. | – |
 | **Ein schlimmster Fall der Ungarischen Methode wird nicht gezeigt** | Die Schranke n³ wird auf diesen Matrizen nicht erreicht; eine gezielt gebaute Familie wird nicht vorgeführt. | – |
 """

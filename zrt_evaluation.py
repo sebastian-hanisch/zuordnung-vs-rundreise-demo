@@ -223,7 +223,7 @@ def verdict_methods(row: dict) -> tuple[str, str]:
     return "info", (
         f"Bei n = {n} liest das Aufzählen aller Zuordnungen {fmt_int(row['enum_assignment'])} Matrixeinträge, die Ungarische Methode höchstens {fmt_int(row['hungarian_bound'])} "
         f"(gemessen im Median {fmt_int(round(row['hungarian_measured']))}). Für die Rundreise sind es {fmt_int(row['enum_tour'])} beim Aufzählen und {fmt_int(row['held_karp'])} bei Held–Karp, "
-        f"also {fewer}, aber jeder zusätzliche Ort verteuert Held–Karp weiter etwa auf das Doppelte "
+        f"also {fewer}, aber jeder zusätzliche Ort verteuert Held–Karp weiter um einen Faktor, der mit n gegen 2 sinkt "
         f"(von n = {n - 1} auf n = {n}: Faktor {fmt_num(step_factor('held_karp', n), 2)}), die Ungarische Methode nur nach der Schranke auf das {fmt_num(step_factor('hungarian', n), 2)}-Fache."
     )
 
