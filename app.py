@@ -91,6 +91,21 @@ dann **🚧 Wo die Annahmen enden** und der Expander **📐 Mathematische Formul
 """
 )
 
+# erklaerseite:einfach:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/zuordnung-rundreise-erklaert.json, nicht von Hand ändern)
+with st.expander("💬 In einfachen Worten"):
+    st.markdown(
+        """
+Die Demo stellt zwei Fragen an **dieselbe Kostentabelle**: Welches Fahrzeug fährt zu welchem Auftrag (**Zuordnung**), und in welcher Reihenfolge besucht ein Fahrzeug alle Orte (**Rundreise**)? Beide Aufgaben lassen sich lösen, indem man alle Möglichkeiten durchprobiert, und bei beiden wächst dieser Aufwand mit jedem weiteren Ort sehr schnell.
+
+Für die Zuordnung gibt es eine Abkürzung, die **Ungarische Methode**: Ihr Aufwand wächst nur so, als würde man die Größe mehrmals mit sich selbst malnehmen. Für die Rundreise ist keine solche Abkürzung bekannt; sie gilt als **NP-schwer**. Das heißt nicht „unmöglich“. Es heißt: Trotz langer Suche kennt man keine Abkürzung, und dass es keine gibt, ist nicht bewiesen. Die Demo zählt dazu, wie oft ein Verfahren in die Tabelle schaut, statt Sekunden zu messen.
+
+Die Klasse gehört zur Aufgabe, nicht zum Verfahren. Außerdem darf die billigste Zuordnung in mehrere kleine Runden zerfallen, die Rundreise nicht. Deshalb ist die Zuordnung nie teurer als die Rundreise, und der Abstand zeigt, was die Bedingung „nur eine einzige Runde“ kostet.
+
+[Ausführlich und verständlich erklärt, mit Fachteil](https://sebastianhanisch.net/zuordnung-rundreise-erklaert.html)
+        """
+    )
+# erklaerseite:einfach:end
+
 with st.expander("So lesen wir „Klasse“", expanded=True):
     st.markdown(
         """
@@ -259,6 +274,26 @@ st.markdown(
 st.markdown("---")
 
 with st.expander("📐 Mathematische Formulierung"):
+    # erklaerseite:lesehilfe:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/zuordnung-rundreise-erklaert.json, nicht von Hand ändern)
+    st.markdown(
+        r"""
+**Lesehilfe.** Gegeben ist eine Kostenmatrix $c_{ij}$ für $n$ Orte. Gesucht sind die billigste Zuordnung (jeder Ort hat genau einen Nachfolger und einen Vorgänger, mehrere Teilkreise sind erlaubt) und die billigste Rundreise (ein einziger Kreis durch alle Orte).
+
+| Symbol | Bedeutung |
+|---|---|
+| $c_{ij}$ | Kosten der Fahrt von Ort $i$ nach Ort $j$ (die Diagonale ist gesperrt) |
+| $n$ | Zahl der Orte (Fahrzeuge, Aufträge) |
+| $\sigma$, $\sigma(i)$ | Zuordnung ohne Fixpunkt: $\sigma(i)$ ist der Ort, zu dem das Fahrzeug von Ort $i$ fährt |
+| $\pi$, $\pi(i)$ | Rundreise als zyklische Reihenfolge: $\pi(i)$ ist der $i$-te besuchte Ort, danach geht es von $\pi(n)$ zurück zu $\pi(1)$ |
+| $\text{OPT}_{\text{Zuordnung}}$, $\text{OPT}_{\text{Rundreise}}$ | Kosten der billigsten Zuordnung bzw. der billigsten Rundreise |
+| $D(S, j)$ | Kosten des billigsten Wegs von Ort 1 über alle Orte der Menge $S$, der in Ort $j$ endet (Held–Karp) |
+| $S$ | Teilmenge der Orte 2 bis $n$ |
+| $j$, $k$ | einzelne Orte; $k$ ist der Ort vor $j$ auf dem Weg |
+
+[Schritt für Schritt erklärt, mit Herleitung und Literatur](https://sebastianhanisch.net/zuordnung-rundreise-erklaert.html#fachleute)
+        """
+    )
+    # erklaerseite:lesehilfe:end
     st.markdown(
         r"""
 **Gegeben** ist eine Kostenmatrix $c_{ij}$ für $i, j \in \{1, \dots, n\}$; die Diagonale ist gesperrt ($c_{ii} = \infty$, in der Demo $10^6$).
@@ -269,7 +304,7 @@ with st.expander("📐 Mathematische Formulierung"):
     st.latex(r"\min_{\sigma} \sum_{i=1}^{n} c_{i\,\sigma(i)}")
     st.markdown(
         r"""
-Als lineares Programm mit $x_{ij} \ge 0$, Zeilensummen $=1$ und Spaltensummen $=1$ liegen die Ecken des zulässigen Bereichs bei ganzen Zahlen (Satz von Birkhoff und von Neumann): das Zuordnungsproblem ist ein LP, also gilt $\text{OPT}_{\text{Zuordnung}}$ polynomial berechenbar, die Ungarische Methode mit höchstens $O(n^3)$ Schritten.
+Als lineares Programm mit $x_{ij} \ge 0$, Zeilensummen $=1$ und Spaltensummen $=1$ liegen die Ecken des zulässigen Bereichs bei ganzen Zahlen (Satz von Birkhoff und von Neumann). Das Zuordnungsproblem ist also ein LP mit ganzzahliger Lösung und damit in polynomialer Zeit lösbar; die Ungarische Methode kommt mit höchstens $O(n^3)$ Schritten aus.
 
 **Rundreise.** Gesucht ist eine zyklische Reihenfolge $\pi$ aller Orte mit minimalen Kosten:
 """
